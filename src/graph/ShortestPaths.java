@@ -53,18 +53,16 @@ public class ShortestPaths<Vertex, Edge> {
         bestEdges = new HashMap<>();
         frontier.add(source, 0.0);
         distances.put(source, 0.0);
-           // TODO: Complete computation of distances and best-path edges
-        while(!frontier.isEmpty()) {
+        while (!frontier.isEmpty()) {
             Vertex v = frontier.extractMin();
-            for(Edge e : graph.outgoingEdges(v)) {
+            for (Edge e : graph.outgoingEdges(v)) {
                 Vertex neighbor = graph.dest(e);
                 double dist = distances.get(v) + graph.weight(e);
-                if(!distances.containsKey(neighbor)) {
+                if (!distances.containsKey(neighbor)) {
                     frontier.add(neighbor, dist);
                     distances.put(neighbor, dist);
                     bestEdges.put(neighbor, e);
-                }
-                else if(dist < distances.get(neighbor)) {
+                } else if (dist < distances.get(neighbor)) {
                     distances.put(neighbor, dist);
                     frontier.changePriority(neighbor, dist);
                     bestEdges.put(neighbor, e);
