@@ -65,5 +65,67 @@ public class ShortestPathsTest {
         assertEquals("best path: a c e f g", sb.toString());
     }
 
+    static final String[] vertices2 = { "a", "b", "c", "d", "e", "f", "g", "h", "i"};
+    static final int[][] edges2 = {
+            {0, 1, 1}, {0, 3, 2}, {0, 4, 3},
+            {1, 2, 7}, {1, 4, 1},
+            {2, 5, 1},
+            {3, 4, 5}, {3, 6, 2},
+            {4, 6, 3}, {4, 8, 1},
+            {5, 4, 1}, {5, 8, 3},
+            {6, 7, 2},
+            {8, 7, 2}
+    };
+
+    static TestGraph testGraph2() {
+        return new TestGraph(vertices2, edges2);
+    }
+
+    @Test
+    void customTest1() {
+        TestGraph graph = testGraph2();
+        ShortestPaths<String, int[]> ssp = new ShortestPaths<>(graph);
+        ssp.singleSourceDistances("b");
+        assertEquals(4, ssp.getDistance("g"));
+        StringBuilder sb = new StringBuilder();
+        sb.append("best path:");
+        for (int[] e : ssp.bestPath("g")) {
+            sb.append(" " + vertices3[e[0]]);
+        }
+        sb.append(" g");
+        assertEquals("best path: b e g", sb.toString());
+    }
+
+    static final String[] vertices3 = { "a", "b", "c", "d", "e", "f", "g", "h", "i"};
+    static final int[][] edges3 = {
+            {0, 1, 4}, {0, 3, 5}, {0, 4, 6},
+            {1, 2, 1}, {1, 4, 3},
+            {2, 5, 2},
+            {3, 4, 8}, {3, 6, 4},
+            {4, 6, 4}, {4, 8, 2},
+            {5, 4, 3}, {5, 8, 3},
+            {6, 7, 4},
+            {8, 7, 2}
+    };
+
+    static TestGraph testGraph3() {
+        return new TestGraph(vertices3, edges3);
+    }
+
+    @Test
+    void customTest2() {
+        TestGraph graph = testGraph3();
+        ShortestPaths<String, int[]> ssp = new ShortestPaths<>(graph);
+        ssp.singleSourceDistances("b");
+        assertEquals(7, ssp.getDistance("h"));
+        StringBuilder sb = new StringBuilder();
+        sb.append("best path:");
+        for (int[] e : ssp.bestPath("h")) {
+            sb.append(" " + vertices3[e[0]]);
+        }
+        sb.append(" h");
+        assertEquals("best path: b e i h", sb.toString());
+    }
+
     // TODO: Add 2 more tests
 }
