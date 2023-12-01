@@ -51,24 +51,31 @@ public class ShortestPaths<Vertex, Edge> {
         PQueue<Vertex> frontier = new SlowPQueue<>();
         distances = new HashMap<>();
         bestEdges = new HashMap<>();
-        frontier.add(source, 0.0);
+
+        frontier.add(source, 0);
         distances.put(source, 0.0);
+        bestEdges.put(source, null);
+
         while (!frontier.isEmpty()) {
             Vertex v = frontier.extractMin();
+
             for (Edge e : graph.outgoingEdges(v)) {
                 Vertex neighbor = graph.dest(e);
                 double dist = distances.get(v) + graph.weight(e);
+
                 if (!distances.containsKey(neighbor)) {
-                    frontier.add(neighbor, dist);
-                    distances.put(neighbor, dist);
                     bestEdges.put(neighbor, e);
+                    distances.put(neighbor, dist);
+                    frontier.add(neighbor, dist);
                 } else if (dist < distances.get(neighbor)) {
+                    bestEdges.put(neighbor, e);
                     distances.put(neighbor, dist);
                     frontier.changePriority(neighbor, dist);
-                    bestEdges.put(neighbor, e);
                 }
             }
         }
+
+           // TODO: Complete computation of distances and best-path edges
     }
 
     /**
