@@ -3,9 +3,11 @@ package diver;
 import datastructures.PQueue;
 import datastructures.SlowPQueue;
 import game.*;
+import graph.ShortestPaths;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.List;
 
 
 /**
@@ -58,34 +60,18 @@ public class McDiver implements SewerDiver {
         // TODO: Get out of the sewer system before the steps are used up.
         // DO NOT WRITE ALL THE CODE HERE. Instead, write your method elsewhere,
         // with a good specification, and call it from this one.
-//        getCoins(state, new HashSet<>());
+        for(Edge e : getCoins(state)) {
+            state.moveTo(e.destination());
+        }
     }
 
     /**
      * Effect: Computes the best paths from a given source vertex, which can then be queried using
      * bestPath().
      */
-    public void singleSourceDistances(ScramState state) { //WE NEED TO USE exit() AS WELL
-//        PQueue<Node> frontier = new SlowPQueue<>();
-//        HashMap<Node, Double> distances = new HashMap<>();
-//        HashMap<Node, Edge> bestEdges = new HashMap<>();
-//        frontier.add(state.currentNode(), 0.0);
-//        distances.put(state.currentNode(), 0.0);
-//        while (!frontier.isEmpty()) {
-//            Node v = frontier.extractMin();
-//            for (Edge e : graph.outgoingEdges(v)) {
-//                Vertex neighbor = graph.dest(e);
-//                double dist = distances.get(v) + graph.weight(e);
-//                if (!distances.containsKey(neighbor)) {
-//                    frontier.add(neighbor, dist);
-//                    distances.put(neighbor, dist);
-//                    bestEdges.put(neighbor, e);
-//                } else if (dist < distances.get(neighbor)) {
-//                    distances.put(neighbor, dist);
-//                    frontier.changePriority(neighbor, dist);
-//                    bestEdges.put(neighbor, e);
-//                }
-//            }
-//        }
+    public List<Edge> getCoins(ScramState state) {
+        ShortestPaths<Node, Edge> graph = new ShortestPaths<>(new Maze((Set<Node>)state.allNodes()));
+        graph.singleSourceDistances(state.currentNode());
+        return graph.bestPath(state.exit());
     }
 }
