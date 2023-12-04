@@ -248,6 +248,7 @@ public class GUI extends JFrame {
     }
     public synchronized void finishAnimating() {
         animating = false;
+        notifyAll();
            // TODO: support concurrency better
     }
 }
